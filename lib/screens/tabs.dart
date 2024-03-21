@@ -13,7 +13,7 @@ const kInitialFilters = {
   Filter.vegetarian: false,
   Filter.vegan: false
 };
-
+final List<Meal> favoriteMeals = [];
 class TabsScreen extends StatefulWidget {
   const TabsScreen({super.key});
 
@@ -22,10 +22,9 @@ class TabsScreen extends StatefulWidget {
     return _TabsScreenState();
   }
 }
-
 class _TabsScreenState extends State<TabsScreen> {
   int _selectedPageIndex = 0;
-  final List<Meal> _favoriteMeals = [];
+  
   Map<Filter, bool> _selectedFilters = kInitialFilters;
 
   void _showInfoMessage(String message) {
@@ -33,21 +32,22 @@ class _TabsScreenState extends State<TabsScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
+        duration: const Duration(seconds:3),
       ),
     );
   }
 
   void _toggleMealFavoriteStatus(Meal meal) {
-    final isExisting = _favoriteMeals.contains(meal);
+    final isExisting = favoriteMeals.contains(meal);
 
     if (isExisting) {
       setState(() {
-        _favoriteMeals.remove(meal);
+        favoriteMeals.remove(meal);
       });
       _showInfoMessage('Meal is no longer a favorite.');
     } else {
       setState(() {
-        _favoriteMeals.add(meal);
+        favoriteMeals.add(meal);
         _showInfoMessage('Marked as a favorite!');
       });
     }
@@ -102,7 +102,7 @@ class _TabsScreenState extends State<TabsScreen> {
 
     if (_selectedPageIndex == 1) {
       activePage = MealsScreen(
-        meals: _favoriteMeals,
+        meals: favoriteMeals,
         onToggleFavorite: _toggleMealFavoriteStatus,
       );
       activePageTitle = 'Your Favorites';

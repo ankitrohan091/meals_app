@@ -404,5 +404,3 @@ const dummyMeals = [
     isLactoseFree: true,
   ),
 ];
-
-List<Meal> favoritesMeal=[];
